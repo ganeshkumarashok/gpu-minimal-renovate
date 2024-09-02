@@ -1,0 +1,38 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "customManagers": [
+    {
+      "customType": "regex",
+      "fileMatch": [
+        "driver_config.yml"
+      ],
+      "matchStrings": [  "#\\s*renovate:\\s*(datasource=(?<datasource>.*?)\\s*)?depName=(?<depName>.*?)(\\s*versioning=(?<versioning>.*?))?\\s*.*?version.*\\\"(?<currentValue>.*?)\\\"\\s*(url:\\s*\\\"(?<currentUrl>.*?)\\\")?" ]
+    }
+  ],
+  "customDatasources": {
+  "nvidia-grid-driver": {
+  "defaultRegistryUrlTemplate": "https://raw.githubusercontent.com/Azure/azhpc-extensions/master/NvidiaGPU/resources.json",
+  "transformTemplates": [
+    "{ \"releases\": $map(OS[Name = 'Linux'].Version[Name = 'Ubuntu'][Version = '22.x'].Driver[Type = 'GRID'].Version, function($ver) { { \"version\": $ver.Num, \"url\": $ver.DirLink } }) }"
+   ]
+ }
+},
+  "packageRules": [
+    {
+      "excludePackagePatterns": [".*"],
+      "managers": ["regex"],
+      "matchManagers": ["regex"],
+      "enabled": true
+    }
+  ],
+  "logLevelRemap": [
+    {
+      "matchMessage": "/^Custom manager fetcher/",
+      "newLogLevel": "debug"
+    },
+    {
+      "matchMessage": "/custom datasource/",
+      "newLogLevel": "debug"
+    }
+  ]
+}
