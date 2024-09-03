@@ -7,6 +7,7 @@
         "driver_config.yml"
       ],
       "matchStrings": [  "#\\s*renovate:\\s*(datasource=(?<datasource>.*?)\\s*)?depName=(?<depName>.*?)(\\s*versioning=(?<versioning>.*?))?\\s*.*?version.*\\\"(?<currentValue>.*?)\\\"\\s*(url:\\s*\\\"(?<sourceUrl>.*?)\\\")?" ]
+      "autoReplaceStringTemplate": "version: \"{{{newVersion}}}\"\n  url: \"{{{sourceUrl}}}\""
     }
   ],
   "customDatasources": {
